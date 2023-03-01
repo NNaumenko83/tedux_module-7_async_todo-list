@@ -2,7 +2,6 @@ import React from "react";
 import { TodoItem } from "../TodoItem/TodoItem";
 
 export const TodoList = ({ todos, deleteTodoTask }) => {
-  console.log(todos);
   return (
     <div>
       <h1>Your tasks</h1>

@@ -1,10 +1,14 @@
 import React from "react";
+import { addTask } from "../../redux/operations";
+import { useDispatch } from "react-redux";
 
 export const AddTodoForm = ({ onSubmit }) => {
+  const dispatch = useDispatch();
   const onSubmitHandler = (e) => {
     e.preventDefault();
     const task = e.target.elements.task.value;
-    onSubmit(task);
+    console.log(task);
+    dispatch(addTask(task));
     e.target.reset();
   };
 

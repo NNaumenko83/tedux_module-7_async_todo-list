@@ -1,28 +1,35 @@
 import React from "react";
 import { TodoList } from "./components/TodoList/TodoList";
-import { useSelector } from "react-redux";
-import { addTodo, deleteTodo, getTodos } from "./redux/todoSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { getTodos } from "./redux/todoSlice";
 import { AddTodoForm } from "./components/AddTodoForm/AddTodoForm";
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchTasks } from "./redux/operations";
 
 function App() {
-  const todos = useSelector(getTodos);
+  const { items, isLoading, error } = useSelector(getTodos);
   const dispatch = useDispatch();
 
-  const addTodoTask = (value) => {
-    dispatch(addTodo(value));
-  };
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, [dispatch]);
 
-  const deleteTodoTask = (id) => {
-    dispatch(deleteTodo(id));
-    console.log(id);
-  };
+  // const addTodoTask = (value) => {
+  //   // dispatch(addTodo(value));
+  //   console.log("addTodoTask");
+  // };
 
   return (
     <>
       <h1>Todo list</h1>
-      <AddTodoForm onSubmit={addTodoTask} />
-      <TodoList todos={todos} deleteTodoTask={deleteTodoTask} />
+      <AddTodoForm />
+      <div>
+        {isLoading && <p>Loading tasks...</p>}
+        {error && <p>{error}</p>}
+        <TodoList todos={items} />
+      </div>
+
+      {/* <AddTodoForm onSubmit={addTodoTask} /> */}
     </>
   );
 }
